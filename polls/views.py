@@ -1,13 +1,11 @@
-from django.shortcuts import HttpResponse
-from django.template import loader
+from django.shortcuts import HttpResponse, render
 
 from .models import Question, Choice
 
 def index(request):
     questions_list = Question.objects.all()
-    template = loader.get_template('polls/index.html')
     
-    res = template.render({'questions_list': questions_list})
+    res = render(request, 'polls/index.html', {'questions_list': questions_list})
     return HttpResponse(res)   
 
 def detail(request, question_id):

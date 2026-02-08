@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse, render
+from django.http import Http404
 
 from .models import Question, Choice
 
@@ -6,12 +7,14 @@ def index(request):
     questions_list = Question.objects.all()
     
     res = render(request, 'polls/index.html', {'questions_list': questions_list})
-    return HttpResponse(res)   
+    return res   
 
 def detail(request, question_id):
-    questions = Question.objects.all()
-    res = ", ".join([q.question_text for q in questions])
-    return HttpResponse(res)    
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', {'question': question})
 
 def results(request, question_id):
     return HttpResponse(f"You're looking at the results of question {question_id}.")

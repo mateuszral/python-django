@@ -6,13 +6,12 @@
     <title>Question Details</title>
 </head>
 <body>
-    <a href="{% url 'polls:index' %}">Back to Polls</a>
-    <h3>{{ question }}</h3>
+    <a href="{% url 'polls:detail' choices.0.question.id %}">Back</a>
+    <h3>{{ choices.0.question }}</h3>
     <ol type="A">
-        {% for choice in question.choice_set.all %}
-            <li>{{ choice.choice_text }}</li>
+        {% for choice in choices %}
+            <li>{{ choice.choice_text }} - {{ choice.votes }} votes</li>
         {% endfor %}
     </ol>
-    <a href="{% url 'polls:results' question.id %}">Results</a>
 </body>
 </html>
